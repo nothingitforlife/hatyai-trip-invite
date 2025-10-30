@@ -1,63 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hatyai Trip Invite</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+    :root{
+      --bg1: #4facfe;
+      --bg2: #00f2fe;
+      --card-bg: rgba(255,255,255,0.06);
+    }
+
+    *{box-sizing: border-box}
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
       color: white;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      padding: 2rem;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      max-width: 760px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 3rem 2rem;
       text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      overflow: hidden;
     }
+
     h1 {
-      font-size: 3rem;
-      animation: pop 1s ease-in-out;
+      font-size: 2.25rem;
+      margin: 0;
+      line-height: 1.1;
+      animation: pop 700ms ease-in-out;
+      display: inline-block;
     }
-    p {
-      font-size: 1.5rem;
-      margin-top: 0.5em;
+
+    p.lead {
+      font-size: 1.25rem;
+      margin: 1rem 0 0.5rem;
     }
+
+    p.date {
+      font-weight: 600;
+      margin-top: .5rem;
+      font-size: 1.05rem;
+      color: #eef8ff;
+    }
+
+    .note {
+      margin-top: 1.25rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
     @keyframes pop {
-      0% { transform: scale(0); opacity: 0; }
+      0% { transform: scale(0.85); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* Confetti effect */
+    /* Confetti pieces */
     .confetti {
       position: absolute;
       width: 10px;
-      height: 10px;
+      height: 14px;
       background-color: white;
-      opacity: 0.7;
-      animation: fall 3s linear infinite;
+      opacity: 0.95;
+      border-radius: 2px;
+      pointer-events: none;
+      animation: fall linear infinite;
+      transform-origin: center;
+      mix-blend-mode: screen;
     }
     @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(100vh) rotate(360deg); }
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0.85; }
+    }
+
+    /* Small responsive tweaks */
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.25rem; }
+      h1 { font-size: 1.5rem; }
+      p.lead { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
-  <h1>🎉 Congrats!</h1>
-  <p>You were invited for the Hatyai Trip ✈️</p>
+  <div class="card" role="region" aria-label="Hatyai trip invitation">
+    <h1>🎉 Congrats!</h1>
+    <p class="lead">Your payment has been received — you were invited to the Hatyai Trip.</p>
+    <p class="date">12–14 December 2025 — Yeayyy! ✈️🎊</p>
+    <p class="note">We look forward to seeing you. Further details will be sent to your email.</p>
+  </div>
 
   <script>
-    // Create simple confetti effect
-    for (let i = 0; i < 50; i++) {
-      let confetti = document.createElement("div");
-      confetti.classList.add("confetti");
-      confetti.style.left = Math.random() * 100 + "vw";
-      confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
-      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
-      document.body.appendChild(confetti);
+    // Create confetti effect across the card
+    const colors = [
+      '#ff6b6b', '#ffb86b', '#ffd76b', '#6bffb0',
+      '#6bd3ff', '#8a6bff', '#ff6bd9', '#ffffff'
+    ];
+
+    const count = 70;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      const size = 6 + Math.random() * 14;
+      el.style.width = size + 'px';
+      el.style.height = Math.max(6, size - 2) + 'px';
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.top = (Math.random() * -20) + 'vh';
+      el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      el.style.opacity = 0.8 + Math.random() * 0.3;
+      el.style.transform = `rotate(${Math.random() * 360}deg)`;
+      el.style.animationDuration = (3 + Math.random() * 4) + 's';
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      el.style.borderRadius = (Math.random() > 0.6) ? '50%' : '3px';
+      document.body.appendChild(el);
+
+      // remove elements after animation to avoid DOM bloat
+      setTimeout(() => {
+        try { el.remove(); } catch(e){}
+      }, 12000);
     }
   </script>
 </body>
