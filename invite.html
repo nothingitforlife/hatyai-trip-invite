@@ -2,31 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>You're Invited!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hatyai Trip Invite</title>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
       color: white;
-      text-align: center;
       height: 100vh;
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      text-align: center;
     }
     h1 {
-      font-size: 3em;
+      font-size: 3rem;
       animation: pop 1s ease-in-out;
+    }
+    p {
+      font-size: 1.5rem;
+      margin-top: 0.5em;
     }
     @keyframes pop {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
+
+    /* Confetti effect */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      opacity: 0.7;
+      animation: fall 3s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <h1>🎉 Congrats!</h1>
-  <p>You were invited for the trip ✈️</p>
+  <p>You were invited for the Hatyai Trip ✈️</p>
+
+  <script>
+    // Create simple confetti effect
+    for (let i = 0; i < 50; i++) {
+      let confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      document.body.appendChild(confetti);
+    }
+  </script>
 </body>
 </html>
